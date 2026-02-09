@@ -98,7 +98,7 @@ export default function ListingDetail() {
                     Call
                   </a>
                 </Button>
-                <Button asChild className="flex-1 h-12 bg-green-600 hover:bg-green-700 text-white">
+                <Button asChild className="flex-1 h-12" style={{ backgroundColor: "hsl(142, 76%, 36%)", color: "white" }}>
                   <a
                     href={`https://wa.me/91${phone}?text=${encodeURIComponent(`Hi, I'm interested in your listing: ${listing.title}`)}`}
                     target="_blank"
