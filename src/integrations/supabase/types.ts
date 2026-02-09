@@ -14,16 +14,196 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      listing_packs: {
+        Row: {
+          created_at: string
+          credits: number
+          display_price: string
+          id: string
+          is_active: boolean
+          name: string
+          price_inr: number
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          credits: number
+          display_price: string
+          id?: string
+          is_active?: boolean
+          name: string
+          price_inr: number
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          credits?: number
+          display_price?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          price_inr?: number
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      listings: {
+        Row: {
+          category: string
+          contact_number: string
+          created_at: string
+          description: string
+          id: string
+          images: string[]
+          location: string
+          price: number
+          status: Database["public"]["Enums"]["listing_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          contact_number?: string
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          location?: string
+          price: number
+          status?: Database["public"]["Enums"]["listing_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          contact_number?: string
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          location?: string
+          price?: number
+          status?: Database["public"]["Enums"]["listing_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          listing_credits: number
+          name: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          id?: string
+          listing_credits?: number
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          listing_credits?: number
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount_paise: number
+          created_at: string
+          credits_added: number
+          id: string
+          pack_id: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_paise: number
+          created_at?: string
+          credits_added: number
+          id?: string
+          pack_id?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_paise?: number
+          created_at?: string
+          credits_added?: number
+          id?: string
+          pack_id?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "listing_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      listing_status: "active" | "sold" | "removed"
+      payment_status: "pending" | "success" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +330,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      listing_status: ["active", "sold", "removed"],
+      payment_status: ["pending", "success", "failed"],
+    },
   },
 } as const
